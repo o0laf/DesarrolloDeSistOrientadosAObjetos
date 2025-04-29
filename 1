@@ -1,25 +1,93 @@
 ```
 
-class Campeon {
-    Nombre string;
-    Vida int;
-    DañoDeAtaque int;
-}  
+# Clase Libro
+class Libro:
+    def __init__(self, titulo, autor, isbn):
+        self.titulo = titulo
+        self.autor = autor
+        self.isbn = isbn
+        self.disponible = True
 
-class Tanque extends Campeon {
-    Resistencia int;
-}
+# Clase Usuario
+class Usuario:
+    def __init__(self, nombre, id_usuario):
+        self.nombre = nombre
+        self.id_usuario = id_usuario
+        self.libros_prestados = []
 
-class Mago extends Campeon {
-    PoderDeHabilidad int;
-}
+    def pedir_libro(self, libro):
+        if not libro.disponible:
+            print("El libro no está disponible.")
+        elif len(self.libros_prestados) >= 3:
+            print("No podés pedir más de 3 libros.")
+        else:
+            libro.disponible = False
+            self.libros_prestados.append(libro)
+            print(f"{self.nombre} pidió prestado el libro '{libro.titulo}'.")
 
-class Curador extends Campeon {
-    PoderDeCuración int;
-}
+    def devolver_libro(self, libro):
+        if libro in self.libros_prestados:
+            libro.disponible = True
+            self.libros_prestados.remove(libro)
+            print(f"{self.nombre} devolvió el libro '{libro.titulo}'.")
+        else:
+            print("No tenés el libro mencionado.")
 
-class Asesino extends Campeon {
-    DañoExplosivo int;
-}
+# Clase Biblioteca
+class Biblioteca:
+    def __init__(self):
+        self.libros = []
+        self.usuarios = []
 
+    def agregar_libro(self, libro):
+        self.libros.append(libro)
+        print(f"Se agregó el libro '{libro.titulo}' a la biblioteca.")
+
+    def registrar_usuario(self, usuario):
+        self.usuarios.append(usuario)
+        print(f"Se registró al usuario '{usuario.nombre}'.")
+
+    def buscar_por_titulo(self, titulo):
+        print(f"Buscando libros con el título '{titulo}':")
+        for libro in self.libros:
+            if titulo.lower() in libro.titulo.lower():
+                print(f"- {libro.titulo} de {libro.autor}")
+
+    def buscar_por_autor(self, autor):
+        print(f"Buscando libros del autor '{autor}':")
+        for libro in self.libros:
+            if autor.lower() in libro.autor.lower():
+                print(f"- {libro.titulo} de {libro.autor}")
+
+# Crear biblioteca
+mi_biblioteca = Biblioteca()
+
+# Crear libros
+libro1 = Libro("Harry Potter", "J.K. Rowling", "123")
+libro2 = Libro("El Hobbit", "J.R.R. Tolkien", "456")
+
+# Agregar libros a la biblioteca
+mi_biblioteca.agregar_libro(libro1)
+mi_biblioteca.agregar_libro(libro2)
+
+# Crear usuario
+usuario1 = Usuario("Lucas", 1)
+
+# Registrar usuario
+mi_biblioteca.registrar_usuario(usuario1)
+
+# Si el usuario pide un libro
+usuario1.pedir_libro(libro1)
+
+# Si el usuario intenta pedir el mismo libro otra vez
+usuario1.pedir_libro(libro1)
+
+# Si el usuario devuelve el libro
+usuario1.devolver_libro(libro1)
+
+# Buscar libros por título
+mi_biblioteca.buscar_por_titulo("Harry")
+
+# Buscar libros por autor
+mi_biblioteca.buscar_por_autor("Tolkien")
 ```
